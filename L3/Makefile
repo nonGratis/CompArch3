@@ -10,6 +10,11 @@ TCP_ADDR=1234
 
 all: build
 
+kernel.bin: kernel.S
+	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) kernel.S -o kernel.o
+	$(CC) kernel.o -nostdlib -Ttext=0x08000000 -o kernel.elf
+	$(OBJCOPY) -O binary kernel.elf kernel.bin
+
 build:
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) start.S -o start.o
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) print.S -o print.o
