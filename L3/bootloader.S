@@ -11,17 +11,18 @@ bootloader:
     ldr   r0, =kernel_image      @ адреса вбудованого образу
     ldr   r1, =_ram_start        @ початок RAM
     mov   r2, #0                 @ індекс (offset)
-1:  ldrb  r3, [r0, r2]           @ зчитуємо байт з образу
-    strb  r3, [r1, r2]           @ записуємо в RAM
-    add   r2, r2, #1             @ інкремент адреси
+    mov   r4, #1                 @ той байт що вимагає варіант
+1:  ldrb r3, [r0, r2, LSL #0]          @ зчитуємо байт з образу
+    strb r3, [r1, r2, LSL #0]          @ записуємо в RAM
+    add r2, r2, r4              @ інкремент адреси
     cmp   r2, #kernel_size       @ перевірка кінця образу
     bne   1b
     
-    ldr r1, =str_boot_end
-    bl dbgput_line             @ виводимо завантажений рядок
+    ldr r1, =str_boot_end      @ Load "bootloader end" string
+    bl dbgput_line             @ Print it
     
-    ldr r3, =_ram_start+1      @ адреса старту ядра з Thumb-бітом
-    bx r3                      @ передеча керування ядра
+    ldr r3, =_ram_start+1      @ Thumb+1
+    bx r3                      @ Transfer control to kernel
 
     .section .rodata
 kernel_image:
