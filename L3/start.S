@@ -17,6 +17,6 @@ vtable:
 __hard_reset__: 
 // initialize stack here 
 // if not initialized yet
-    bl lab1 
+    bl bootloader
     _loop: b _loop 
     .size __hard_reset__, .-__hard_reset__ 
