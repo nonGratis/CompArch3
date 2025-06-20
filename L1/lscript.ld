@@ -1,4 +1,4 @@
-/* filepath: /home/fullname/Documents/CompArch3/L1/lscript.ld */
+/* filepath: /home/io-23_shapovalov-andrii/Documents/CompArch3/L1/lscript.ld */
 /* linker script for stm32f1
 * platforms
 * Define the end of RAM and limit of stack memory
