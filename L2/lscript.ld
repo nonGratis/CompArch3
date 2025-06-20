@@ -4,7 +4,6 @@
 * Define the end of RAM and limit of stack memory
 */
 MEMORY
-/
 {
 /* We mark flash memory as read-only, since that is where the program lives.
 STM32 chips map their flash memory to start at 0x08000000, and we have 32KB of
