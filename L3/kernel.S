@@ -3,8 +3,12 @@
     .thumb
     .global __kernel_reset__
 __kernel_reset__:
-    bl  lab1           @ виклик функції з Lab2
-    bx  lr
+    ldr r1, =data          @ адресу рядка "kernel started!" у r1
+    bl dbgput_line         @ виклик процедури друку рядка
+    bl lab1                @ Викликати функцію lab1
+    mov r1, r0             @ r0 в r1
+    bl dbgput_num          @ принт числа
+    b .                    @ Нескінченний цикл (зупинка виконання)
 
     .global lab1
     .type lab1, %function
@@ -21,3 +25,7 @@ floop:
     bne  floop
     add  r0, r1, r2   @ результат
     pop  {pc}
+
+.section .rodata
+data:
+    .asciz "kernel started!\n"
