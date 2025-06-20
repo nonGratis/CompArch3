@@ -9,17 +9,17 @@ CPU_CC=cortex-m4
 TCP_ADDR=1234
 
 
-kernel.bin: kernel.S
+kernel.bin: kernel.S print.S
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) kernel.S -o kernel.o
-	$(CC) kernel.o -nostdlib -Ttext=0x20000000 -o kernel.elf
+	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) print.S -o print.o
+	$(CC) kernel.o print.o -nostdlib -Ttext=0x20000000 -o kernel.elf
 	$(OBJCOPY) -O binary kernel.elf kernel.bin
 
 build:
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) start.S -o start.o
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) print.S -o print.o
-	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) kernel.S -o kernel.o
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) bootloader.S -o bootloader.o
-	$(CC) start.o print.o kernel.o bootloader.o \
+	$(CC) start.o print.o bootloader.o \
 		-mcpu=$(CPU_CC) --specs=nosys.specs -nostdlib -lgcc \
 		-T lscript.ld -o $(TARGET).elf
 	$(OBJCOPY) -O binary -F elf32-littlearm $(TARGET).elf $(TARGET).bin
