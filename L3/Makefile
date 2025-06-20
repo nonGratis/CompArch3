@@ -8,11 +8,10 @@ TARGET=firmware
 CPU_CC=cortex-m4
 TCP_ADDR=1234
 
-all: build
 
 kernel.bin: kernel.S
 	$(CC) -x assembler-with-cpp -c -O0 -g3 -mcpu=$(CPU_CC) kernel.S -o kernel.o
-	$(CC) kernel.o -nostdlib -Ttext=0x08000000 -o kernel.elf
+	$(CC) kernel.o -nostdlib -Ttext=0x20000000 -o kernel.elf
 	$(OBJCOPY) -O binary kernel.elf kernel.bin
 
 build:
@@ -34,3 +33,5 @@ clean:
 	-rm *.o
 	-rm *.elf
 	-rm *.bin
+
+run: clean kernel.bin build qemu
