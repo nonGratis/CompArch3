@@ -30,8 +30,8 @@ qemu:
 		-gdb tcp::$(TCP_ADDR) -S
 
 clean:
-	-rm *.o
-	-rm *.elf
-	-rm *.bin
+	-rm -f *.o
+	-rm -f *.elf
+	-rm -f *.bin
 
 run: clean kernel.bin build qemu
