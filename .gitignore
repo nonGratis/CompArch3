@@ -29,6 +29,7 @@
 *.la
 *.a
 *.lib
+Debug/
 
 # Executables
 *.exe
@@ -39,3 +40,4 @@
 
 # Data
 *.txt
+*.map
