@@ -1,4 +1,4 @@
-    .syntax unified
+.syntax unified
     .cpu cortex-m4
     .thumb
 
@@ -10,12 +10,13 @@ bootloader:
     
     ldr   r0, =kernel_image      @ адреса вбудованого образу
     ldr   r1, =_ram_start        @ початок RAM
+    ldr   r5, =kernel_size       @ завантажуємо розмір kernel в регістр
     mov   r2, #0                 @ індекс (offset)
     mov   r4, #1                 @ той байт що вимагає варіант
 1:  ldrb r3, [r0, r2, LSL #0]          @ зчитуємо байт з образу
     strb r3, [r1, r2, LSL #0]          @ записуємо в RAM
     add r2, r2, r4              @ інкремент адреси
-    cmp   r2, #kernel_size       @ перевірка кінця образу
+    cmp   r2, r5                @ порівнюємо з розміром kernel (тепер в регістрі)
     bne   1b
     
     ldr r1, =str_boot_end      @ Load "bootloader end" string

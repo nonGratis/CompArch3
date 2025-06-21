@@ -1,7 +1,15 @@
     .syntax unified
     .cpu cortex-m4
     .thumb
+
+    .section .text
     .global __kernel_reset__
+
+// з самого початку встанолюємо векторну таблицю ядра 
+.word 0x20008000           // початковий вміст стекового покажчика (SP)
+.word __kernel_reset__+1   // обробник скидання (Reset handler) з Thumb-бітом
+
+
 __kernel_reset__:
     ldr r1, =data          @ адресу рядка "kernel started!" у r1
     bl dbgput_line         @ виклик процедури друку рядка
