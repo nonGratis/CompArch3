@@ -200,4 +200,41 @@ void SysTick_Handler(void)
 
 /* USER CODE BEGIN 1 */
 
+/**
+  * @brief This function handles EXTI line0 interrupt.
+  */
+void EXTI0_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI0_IRQn 0 */
+  // Глобальна змінна для зберігання стану кнопки
+  // Змінна повинна бути оголошена в іншому файлі, наприклад, в main.c
+  // extern _Bool state; - це оголошення змінної, яка визначена в main.c
+  // Це дозволяє використовувати цю змінну в цьому файлі без повторного визначення
+  extern _Bool state;
+
+  /* USER CODE END EXTI0_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  /* USER CODE BEGIN EXTI0_IRQn 1 */
+
+  // Перевіряємо стан кнопки
+  if (state == 0) {
+    // Вмикамєо
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET); 
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+  } else {
+    // Вимикаємо
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+  }
+
+  // Актуалізуємо стан
+  state = !state;
+
+  /* USER CODE END EXTI0_IRQn 1 */
+}
+
 /* USER CODE END 1 */
